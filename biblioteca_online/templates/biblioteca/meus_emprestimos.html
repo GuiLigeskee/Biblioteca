@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Meus Empréstimos</h1>
+    <ul class="list-group">
+        {% for emprestimo in emprestimos %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ emprestimo.livro.titulo }} - Devolução até {{ emprestimo.data_devolucao }}
+            
+            {% if emprestimo.dias_atraso > 0 %}
+                <span class="badge bg-danger">Atrasado por {{ emprestimo.dias_atraso }} dias</span>
+                <span class="badge bg-warning">Multa: R$ {{ emprestimo.calcular_multa }}</span>
+            {% else %}
+                <span class="badge bg-success">Em dia</span>
+            {% endif %}
+        </li>
+        {% empty %}
+        <li class="list-group-item">Você não tem empréstimos ativos.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

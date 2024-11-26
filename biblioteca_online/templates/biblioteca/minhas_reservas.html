@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Minhas Reservas</h1>
+    <ul class="list-group">
+        {% for reserva in reservas %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ reserva.livro.titulo }}</strong>
+                <p>Reservado em: {{ reserva.data_reserva|date:"d/m/Y H:i" }}</p>
+            </div>
+            {% if reserva.disponivel %}
+                <span class="badge bg-success">Disponível para empréstimo!</span>
+            {% else %}
+                <span class="badge bg-secondary">Aguardando disponibilidade</span>
+            {% endif %}
+        </li>
+        {% empty %}
+        <li class="list-group-item">Você não tem reservas ativas.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
