@@ -45,6 +45,7 @@ git push origin main
 5. [ ] Copiei a **Internal Database URL**
 
 📝 Minha Database URL:
+
 ```
 postgres://biblioteca_user:____@dpg-____.oregon-postgres.render.com/biblioteca
 ```
@@ -107,6 +108,7 @@ Adicionei estas variáveis (clicando em "Add Environment Variable"):
 Minha URL: `https://biblioteca-online-____.onrender.com`
 
 Testei:
+
 - [ ] Página inicial abre
 - [ ] CSS está funcionando
 - [ ] Login do admin funciona (`/admin/`)
@@ -130,15 +132,18 @@ Testei:
 ## 🆘 Se Algo Der Errado
 
 ### Erro no Build?
+
 1. [ ] Verifiquei os logs (Dashboard → Logs)
 2. [ ] Procurei erros em vermelho
 3. [ ] Consultei DEPLOY_RENDER.md seção "Troubleshooting"
 
 ### CSS não carrega?
+
 1. [ ] Verifiquei se `build.sh` executou `collectstatic`
 2. [ ] Forcei novo deploy: Manual Deploy → Deploy latest commit
 
 ### Erro "DisallowedHost"?
+
 1. [ ] Verifiquei se `ALLOWED_HOSTS=.onrender.com` está nas variáveis
 
 ---

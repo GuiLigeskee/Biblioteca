@@ -44,6 +44,7 @@ git push origin main
 1. No Dashboard do Render, clique em **"New +"**
 2. Selecione **"PostgreSQL"**
 3. Configure:
+
    - **Name**: `biblioteca-db`
    - **Database**: `biblioteca`
    - **User**: `biblioteca_user`
@@ -79,7 +80,6 @@ Após criar o banco, você verá várias informações. Copie:
 1. Se for a primeira vez:
    - Clique em **"Connect account"** (GitHub)
    - Autorize o Render
-   
 2. Encontre seu repositório **"Biblioteca"**
 3. Clique em **"Connect"**
 
@@ -87,16 +87,16 @@ Após criar o banco, você verá várias informações. Copie:
 
 Preencha os campos:
 
-| Campo | Valor |
-|-------|-------|
-| **Name** | `biblioteca-online` (ou seu nome preferido) |
-| **Region** | Same as database (mesma do banco) |
-| **Branch** | `main` |
-| **Root Directory** | (deixe vazio) |
-| **Runtime** | `Python 3` |
-| **Build Command** | `bash build.sh` |
-| **Start Command** | `cd biblioteca_online && gunicorn biblioteca_online.wsgi:application` |
-| **Plan** | **Free** |
+| Campo              | Valor                                                                 |
+| ------------------ | --------------------------------------------------------------------- |
+| **Name**           | `biblioteca-online` (ou seu nome preferido)                           |
+| **Region**         | Same as database (mesma do banco)                                     |
+| **Branch**         | `main`                                                                |
+| **Root Directory** | (deixe vazio)                                                         |
+| **Runtime**        | `Python 3`                                                            |
+| **Build Command**  | `bash build.sh`                                                       |
+| **Start Command**  | `cd biblioteca_online && gunicorn biblioteca_online.wsgi:application` |
+| **Plan**           | **Free**                                                              |
 
 ---
 
@@ -107,37 +107,44 @@ Preencha os campos:
 Na seção **"Environment Variables"**, clique em **"Add Environment Variable"** e adicione:
 
 #### Variável 1: SECRET_KEY
+
 ```
 Key: SECRET_KEY
 Value: 0v9v)y41)waic81^xq=l7rtn#k)(-ef$oub47!!c+re1h%*^f!
 ```
+
 (ou gere uma nova em: https://djecrety.ir/)
 
 #### Variável 2: DEBUG
+
 ```
 Key: DEBUG
 Value: False
 ```
 
 #### Variável 3: DATABASE_URL
+
 ```
 Key: DATABASE_URL
 Value: [Cole a Internal Database URL do Passo 3.2]
 ```
 
 #### Variável 4: DJANGO_SETTINGS_MODULE
+
 ```
 Key: DJANGO_SETTINGS_MODULE
 Value: biblioteca_online.settings_production
 ```
 
 #### Variável 5: PYTHON_VERSION
+
 ```
 Key: PYTHON_VERSION
 Value: 3.13.0
 ```
 
 #### Variável 6: ALLOWED_HOSTS
+
 ```
 Key: ALLOWED_HOSTS
 Value: .onrender.com
@@ -165,6 +172,7 @@ ALLOWED_HOSTS=.onrender.com
 ### Acompanhe o Deploy
 
 Você verá logs em tempo real:
+
 ```
 ==> Installing dependencies...
 ==> Collecting static files...
@@ -186,12 +194,14 @@ Você verá logs em tempo real:
 ### 7.2 Criar Superusuário
 
 Execute no shell:
+
 ```bash
 cd biblioteca_online
 python manage.py createsuperuser
 ```
 
 Preencha:
+
 - **Username**: admin (ou seu nome)
 - **Email**: seu@email.com
 - **Password**: (digite uma senha forte)
@@ -204,6 +214,7 @@ Preencha:
 ### 8.1 Obter URL
 
 No topo do Dashboard você verá:
+
 ```
 https://biblioteca-online-xxxx.onrender.com
 ```
@@ -257,6 +268,7 @@ Antes de considerar o deploy completo, verifique:
 **Causa**: Build falhou ou servidor não iniciou
 
 **Solução**:
+
 1. Verifique os logs no Dashboard
 2. Procure por erros em vermelho
 3. Verifique se `DATABASE_URL` está correto
@@ -268,6 +280,7 @@ Antes de considerar o deploy completo, verifique:
 
 **Solução**:
 Adicione variável de ambiente:
+
 ```
 ALLOWED_HOSTS=.onrender.com
 ```
@@ -277,6 +290,7 @@ ALLOWED_HOSTS=.onrender.com
 **Causa**: Arquivos estáticos não foram coletados
 
 **Solução**:
+
 1. Verifique se `build.sh` está executando `collectstatic`
 2. Force um novo deploy: **Manual Deploy** → **Deploy latest commit**
 
@@ -286,6 +300,7 @@ ALLOWED_HOSTS=.onrender.com
 
 **Solução**:
 No Shell:
+
 ```bash
 cd biblioteca_online
 python manage.py migrate
@@ -296,6 +311,7 @@ python manage.py migrate
 **Causa**: Múltiplas possibilidades
 
 **Solução**:
+
 1. Verifique logs: Dashboard → **Logs**
 2. Procure por traceback em Python
 3. Verifique se todas as variáveis de ambiente estão corretas
@@ -321,6 +337,7 @@ git push origin main
 ### Deploy Manual
 
 Se quiser forçar um deploy:
+
 1. Dashboard → **Manual Deploy**
 2. Clique em **"Deploy latest commit"**
 
@@ -331,6 +348,7 @@ Se quiser forçar um deploy:
 ### Ver Logs
 
 Dashboard → **Logs**
+
 - Logs em tempo real
 - Erros aparecem em vermelho
 - Pode filtrar por tipo
@@ -338,6 +356,7 @@ Dashboard → **Logs**
 ### Ver Métricas
 
 Dashboard → **Metrics**
+
 - CPU usage
 - Memory usage
 - Request rate
@@ -352,6 +371,7 @@ Dashboard → **Manual Deploy** → **"Clear build cache & deploy"**
 ## 💰 Plano Free vs Paid
 
 ### Plano Free (Grátis)
+
 - ✅ 750 horas/mês
 - ✅ SSL grátis
 - ✅ Deploy automático
@@ -359,6 +379,7 @@ Dashboard → **Manual Deploy** → **"Clear build cache & deploy"**
 - ⚠️ 100GB de largura de banda
 
 ### Plano Starter ($7/mês)
+
 - ✅ Sempre ativo
 - ✅ Mais recursos (RAM, CPU)
 - ✅ Largura de banda ilimitada

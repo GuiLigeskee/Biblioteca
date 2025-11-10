@@ -13,6 +13,7 @@ Criei um comando Django personalizado que roda automaticamente durante o deploy 
 ### Credenciais Padrão
 
 Por padrão, será criado:
+
 - **Username**: `admin`
 - **Email**: `admin@biblioteca.com`
 - **Password**: `admin123456`
@@ -46,6 +47,7 @@ DJANGO_SUPERUSER_PASSWORD=sua_senha_segura
 ```
 
 Depois force um novo deploy:
+
 - **Manual Deploy** → **Deploy latest commit**
 
 ---
@@ -84,18 +86,21 @@ O Render oferece **7 dias de trial** do plano pago, que inclui Shell:
 **Opção A: Via Railway (tem shell grátis)**
 
 Se quiser, pode fazer o deploy temporariamente no Railway apenas para criar o usuário:
+
 - Railway tem shell grátis
 - Após criar o superuser, volte pro Render
 
 **Opção B: Localmente e depois backup**
 
 1. **Localmente**, crie o superusuário:
+
    ```powershell
    cd biblioteca_online
    python manage.py createsuperuser
    ```
 
 2. **Faça dump dos dados**:
+
    ```powershell
    python manage.py dumpdata auth.User --indent 2 > users.json
    ```
@@ -174,6 +179,7 @@ python manage.py create_superuser_if_none
 ### O superusuário não foi criado
 
 **Verifique os logs do build:**
+
 1. Dashboard → Logs
 2. Procure por: `✅ Superusuário "admin" criado com sucesso!`
 
@@ -186,12 +192,14 @@ O comando detecta se já existe superuser e não tenta criar de novo. Isso é no
 ### Não consigo fazer login
 
 Certifique-se de usar:
+
 - Username: `admin` (não é email!)
 - Password: `admin123456`
 
 ### Quero usar outras credenciais
 
 Adicione no Render (Environment Variables):
+
 ```
 DJANGO_SUPERUSER_USERNAME=meu_admin
 DJANGO_SUPERUSER_EMAIL=meu@email.com
@@ -204,13 +212,13 @@ Force novo deploy: Manual Deploy → Deploy latest commit
 
 ## 📊 Comparação de Soluções
 
-| Solução | Tempo | Dificuldade | Custo | Recomendado |
-|---------|-------|-------------|-------|-------------|
-| **1. Automática** | 5 min | ⭐ Fácil | Grátis | ✅ Sim |
-| **2. Trial 7 dias** | 10 min | ⭐⭐ Médio | Grátis* | ⚠️ Temporário |
-| **3. Manualmente** | 30 min | ⭐⭐⭐ Difícil | Grátis | ❌ Complicado |
+| Solução             | Tempo  | Dificuldade    | Custo    | Recomendado   |
+| ------------------- | ------ | -------------- | -------- | ------------- |
+| **1. Automática**   | 5 min  | ⭐ Fácil       | Grátis   | ✅ Sim        |
+| **2. Trial 7 dias** | 10 min | ⭐⭐ Médio     | Grátis\* | ⚠️ Temporário |
+| **3. Manualmente**  | 30 min | ⭐⭐⭐ Difícil | Grátis   | ❌ Complicado |
 
-*Requer cartão, mas não cobra nos 7 dias
+\*Requer cartão, mas não cobra nos 7 dias
 
 ---
 
