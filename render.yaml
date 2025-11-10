@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: biblioteca-online
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "cd biblioteca_online && gunicorn biblioteca_online.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: DJANGO_SETTINGS_MODULE
+        value: biblioteca_online.settings_production
+
+databases:
+  - name: biblioteca-db
+    databaseName: biblioteca
+    user: biblioteca_user
