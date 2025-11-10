@@ -1,22 +1,83 @@
-{% extends 'base.html' %}
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Meus Empréstimos{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h1>Meus Empréstimos</h1>
-    <ul class="list-group">
-        {% for emprestimo in emprestimos %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ emprestimo.livro.titulo }} - Devolução até {{ emprestimo.data_devolucao }}
-            
-            {% if emprestimo.dias_atraso > 0 %}
-                <span class="badge bg-danger">Atrasado por {{ emprestimo.dias_atraso }} dias</span>
-                <span class="badge bg-warning">Multa: R$ {{ emprestimo.calcular_multa }}</span>
-            {% else %}
-                <span class="badge bg-success">Em dia</span>
-            {% endif %}
-        </li>
-        {% empty %}
-        <li class="list-group-item">Você não tem empréstimos ativos.</li>
-        {% endfor %}
-    </ul>
+<div class="container mt-5">
+  <h1 class="mb-4">Meus Empréstimos</h1>
+
+  {% if messages %} {% for message in messages %}
+  <div
+    class="alert alert-{{ message.tags }} alert-dismissible fade show"
+    role="alert"
+  >
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %}
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Livro</th>
+            <th>Data Empréstimo</th>
+            <th>Devolução Prevista</th>
+            <th>Status</th>
+            <th>Multa</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emprestimo in emprestimos %}
+          <tr>
+            <td>
+              <strong>{{ emprestimo.livro.titulo }}</strong><br />
+              <small class="text-muted">{{ emprestimo.livro.autor }}</small>
+            </td>
+            <td>{{ emprestimo.data_emprestimo|date:"d/m/Y" }}</td>
+            <td>{{ emprestimo.data_devolucao_prevista|date:"d/m/Y" }}</td>
+            <td>
+              {% if emprestimo.dias_em_atraso > 0 %}
+              <span class="badge bg-danger">
+                Atrasado {{ emprestimo.dias_em_atraso }} dia(s)
+              </span>
+              {% else %}
+              <span class="badge bg-success">Em dia</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if emprestimo.valor_multa > 0 %}
+              <span class="text-danger">R$ {{ emprestimo.valor_multa }}</span>
+              {% else %} - {% endif %}
+            </td>
+            <td>
+              <a
+                href="{% url 'devolver_livro' emprestimo.id %}"
+                class="btn btn-sm btn-success"
+                onclick="return confirm('Confirmar devolução do livro?')"
+              >
+                Devolver
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center">
+              Você não tem empréstimos ativos.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <a href="{% url 'lista_livros' %}" class="btn btn-secondary">
+      <i class="bi bi-arrow-left"></i> Voltar para Catálogo
+    </a>
+  </div>
 </div>
 {% endblock %}

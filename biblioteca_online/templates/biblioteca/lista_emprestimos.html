@@ -1,0 +1,93 @@
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Lista de Empréstimos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gerenciar Empréstimos</h2>
+    <a href="{% url 'criar_emprestimo' %}" class="btn btn-primary"
+      >Novo Empréstimo</a
+    >
+  </div>
+
+  {% if messages %} {% for message in messages %}
+  <div
+    class="alert alert-{{ message.tags }} alert-dismissible fade show"
+    role="alert"
+  >
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %}
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuário</th>
+            <th>Livro</th>
+            <th>Data Empréstimo</th>
+            <th>Devolução Prevista</th>
+            <th>Devolução Real</th>
+            <th>Dias Atraso</th>
+            <th>Multa</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emprestimo in emprestimos %}
+          <tr>
+            <td>{{ emprestimo.id }}</td>
+            <td>{{ emprestimo.usuario.username }}</td>
+            <td>{{ emprestimo.livro.titulo }}</td>
+            <td>{{ emprestimo.data_emprestimo|date:"d/m/Y H:i" }}</td>
+            <td>{{ emprestimo.data_devolucao_prevista|date:"d/m/Y H:i" }}</td>
+            <td>
+              {% if emprestimo.data_devolucao_real %} {{
+              emprestimo.data_devolucao_real|date:"d/m/Y H:i" }} {% else %}
+              <span class="badge bg-warning">Pendente</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if emprestimo.dias_em_atraso > 0 and not
+              emprestimo.data_devolucao_real %}
+              <span class="badge bg-danger"
+                >{{ emprestimo.dias_em_atraso }} dia(s)</span
+              >
+              {% else %} - {% endif %}
+            </td>
+            <td>
+              {% if emprestimo.multa > 0 %}
+              <span class="text-danger">R$ {{ emprestimo.multa }}</span>
+              {% else %} - {% endif %}
+            </td>
+            <td>
+              {% if not emprestimo.data_devolucao_real %}
+              <a
+                href="{% url 'marcar_como_devolvido' emprestimo.id %}"
+                class="btn btn-sm btn-success"
+                onclick="return confirm('Confirmar devolução?')"
+              >
+                Devolver
+              </a>
+              {% else %}
+              <span class="badge bg-success">Devolvido</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="9" class="text-center">
+              Nenhum empréstimo encontrado
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

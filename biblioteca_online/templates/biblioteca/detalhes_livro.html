@@ -1,16 +1,82 @@
-{% extends 'base.html' %}
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}{{ livro.titulo }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>{{ livro.titulo }}</h1>
-    <p><strong>Autor:</strong> {{ livro.autor }}</p>
-    <p><strong>Gênero:</strong> {{ livro.genero }}</p>
-    <p><strong>Disponível:</strong> {{ livro.disponivel|yesno:"Sim,Não" }}</p>
+<div class="container mt-5">
+  {% if messages %} {% for message in messages %}
+  <div
+    class="alert alert-{{ message.tags }} alert-dismissible fade show"
+    role="alert"
+  >
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %}
 
-    {% if livro.disponivel %}
-    <a href="{% url 'solicitar_emprestimo' livro.pk %}" class="btn btn-success">Solicitar Empréstimo</a>
-    {% else %}
-    <a href="{% url 'criar_reserva' livro.pk %}" class="btn btn-warning">Reservar Livro</a>
-    {% endif %}
+  <div class="card">
+    <div class="card-header">
+      <h1>{{ livro.titulo }}</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Autor:</strong> {{ livro.autor }}</p>
+          <p>
+            <strong>Editora:</strong> {{ livro.editora|default:"Não informado"
+            }}
+          </p>
+          <p>
+            <strong>Ano de Publicação:</strong> {{
+            livro.ano_publicacao|default:"Não informado" }}
+          </p>
+          <p><strong>Gênero:</strong> {{ livro.genero }}</p>
+          <p><strong>ISBN:</strong> {{ livro.isbn|default:"Não informado" }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Quantidade Total:</strong> {{ livro.quantidade_total }}</p>
+          <p>
+            <strong>Quantidade Disponível:</strong>
+            {% if livro.quantidade_disponivel > 0 %}
+            <span class="badge bg-success"
+              >{{ livro.quantidade_disponivel }}</span
+            >
+            {% else %}
+            <span class="badge bg-danger">0 (Indisponível)</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        {% if user.is_authenticated %} {% if tem_estoque %}
+        <a
+          href="{% url 'solicitar_emprestimo' livro.pk %}"
+          class="btn btn-success"
+        >
+          <i class="bi bi-book"></i> Solicitar Empréstimo
+        </a>
+        {% else %} {% if not usuario_tem_reserva %}
+        <a href="{% url 'criar_reserva' livro.pk %}" class="btn btn-warning">
+          <i class="bi bi-bookmark"></i> Reservar Livro
+        </a>
+        {% else %}
+        <button class="btn btn-secondary" disabled>
+          <i class="bi bi-bookmark-check"></i> Já Reservado
+        </button>
+        {% endif %} {% endif %} {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary"
+          >Faça login para emprestar</a
+        >
+        {% endif %}
+
+        <a href="{% url 'lista_livros' %}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

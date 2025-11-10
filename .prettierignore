@@ -1,0 +1,3 @@
+# Ignorar templates Django para evitar problemas com formatação
+biblioteca_online/templates/**/*.html
+*.html

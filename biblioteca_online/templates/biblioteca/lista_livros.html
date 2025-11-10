@@ -1,19 +1,75 @@
-{% extends 'base.html' %}
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Lista de Livros{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">Lista de Livros</h1>
-    <form method="get" class="mb-3">
-        <input type="text" name="busca" placeholder="Buscar livros..." class="form-control" value="{{ request.GET.busca }}">
-    </form>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Biblioteca Online</h1>
+       
+    </div>
+
+    <!-- Filtros de busca -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="busca" placeholder="Buscar por título ou autor..." 
+                           class="form-control" value="{{ busca }}">
+                </div>
+                <div class="col-md-4">
+                    <select name="genero" class="form-select">
+                        <option value="">Todos os gêneros</option>
+                        {% for g in generos %}
+                            <option value="{{ g }}" {% if g == genero_selecionado %}selected{% endif %}>{{ g }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de livros -->
     <div class="row">
         {% for livro in livros %}
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">{{ livro.titulo }}</h5>
-                    <p class="card-text">Autor: {{ livro.autor }}</p>
-                    <a href="{% url 'detalhes_livro' livro.pk %}" class="btn btn-primary">Detalhes</a>
+                    <p class="card-text">
+                        <strong>Autor:</strong> {{ livro.autor }}<br>
+                        <strong>Gênero:</strong> {{ livro.genero }}<br>
+                        {% if livro.editora %}
+                            <strong>Editora:</strong> {{ livro.editora }}<br>
+                        {% endif %}
+                        {% if livro.ano_publicacao %}
+                            <strong>Ano:</strong> {{ livro.ano_publicacao }}<br>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% if livro.quantidade_disponivel > 0 %}
+                            <span class="badge bg-success">{{ livro.quantidade_disponivel }} disponível(is)</span>
+                        {% else %}
+                            <span class="badge bg-danger">Indisponível</span>
+                        {% endif %}
+                    </p>
                 </div>
+                <div class="card-footer">
+                    <a href="{% url 'detalhes_livro' livro.pk %}" class="btn btn-primary btn-sm w-100">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                Nenhum livro encontrado.
             </div>
         </div>
         {% endfor %}

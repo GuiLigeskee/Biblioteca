@@ -2,23 +2,152 @@
 
 Um sistema desenvolvido em **Django** para gerenciar empréstimos, reservas, controle de atrasos e multas de livros em uma biblioteca.
 
+## � Requisitos do Sistema Atendidos
+
+### 1. Usuário
+
+- ✅ **id_usuario** (PK) - identificador único
+- ✅ **nome** - texto
+- ✅ **cpf** - texto (formato XXX.XXX.XXX-XX)
+- ✅ **data_nascimento** - data
+- ✅ **telefone** - texto
+- ✅ **email** - texto
+- ✅ **senha** - texto (hash)
+- ✅ **endereço** - texto
+
+### 2. Admin
+
+- ✅ **id_admin** (PK) - inteiro
+- ✅ **nome** - texto
+- ✅ **email** - texto
+- ✅ **senha** - texto (hash)
+- ✅ **nivel_acesso** - inteiro (ex.: 1=geral, 2=superadmin)
+
+### 3. Livro
+
+- ✅ **id_livro** (PK) - inteiro
+- ✅ **titulo** - texto
+- ✅ **autor** - texto
+- ✅ **editora** - texto
+- ✅ **ano_publicacao** - inteiro
+- ✅ **genero** - texto
+- ✅ **isbn** - texto
+- ✅ **quantidade_total** - inteiro
+- ✅ **quantidade_disponivel** - inteiro
+
+### 4. Reserva
+
+- ✅ **id_reserva** (PK) - inteiro
+- ✅ **id_usuario** (FK) - referência a Usuário
+- ✅ **id_livro** (FK) - referência a Livro
+- ✅ **data_reserva** - data/hora
+- ✅ **status** - texto (ex.: ativa, concluída, cancelada)
+
+### 5. Empréstimo
+
+- ✅ **id_emprestimo** (PK) - inteiro
+- ✅ **id_usuario** (FK) - referência a Usuário
+- ✅ **id_livro** (FK) - referência a Livro
+- ✅ **data_emprestimo** - data/hora
+- ✅ **data_devolucao_prevista** - data/hora
+- ✅ **data_devolucao_real** - data/hora (pode ser nulo)
+- ✅ **multa** - decimal (valor monetário, se houver atraso)
+
 ## 📝 Funcionalidades
 
-- **Cadastro de Livros**: Gerenciamento de acervo, incluindo título, autor e disponibilidade.
-- **Empréstimos**: Usuários podem emprestar livros disponíveis, com controle automático de devolução.
-- **Reservas**: Quando um livro está indisponível, é possível realizar reservas e entrar em uma fila de espera.
-- **Controle de Atrasos e Multas**: Cálculo automático de multas para empréstimos atrasados.
+- **Cadastro de Livros**: Gerenciamento completo do acervo com controle de quantidade.
+- **Empréstimos**: Controle de empréstimos com cálculo automático de multas por atraso.
+- **Reservas**: Sistema de reservas com controle de status.
+- **Controle de Atrasos e Multas**: Cálculo automático de multas (R$ 1,00 por dia de atraso).
 - **Área do Usuário**:
   - Visualizar empréstimos ativos.
   - Gerenciar reservas realizadas.
+  - Perfil com dados pessoais (CPF, telefone, endereço).
 - **Administração**:
-  - Marcar devoluções.
+  - Marcar devoluções com cálculo automático de multas.
   - Gerenciar o acervo de livros.
+  - Controle de níveis de acesso.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Backend**: Django 5.1.3
+- **Backend**: Django 4.2+
 - **Banco de Dados**: SQLite
 - **Frontend**: Django Templates, Bootstrap
 - **Autenticação**: Sistema nativo do Django
 
+## 🚀 Como Iniciar o Projeto
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/GuiLigeskee/Biblioteca.git
+cd Biblioteca
+```
+
+### 2. Crie e ative um ambiente virtual
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate
+```
+
+### 3. Instale as dependências
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 4. Execute as migrações
+
+```powershell
+& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" migrate
+```
+
+### 5. Crie um superusuário (administrador)
+
+```powershell
+& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" createsuperuser
+```
+
+### 6. Inicie o servidor de desenvolvimento
+
+```powershell
+& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" runserver
+```
+
+### 7. Acesse o sistema
+
+- **Site**: http://127.0.0.1:8000/
+- **Painel Administrativo**: http://127.0.0.1:8000/admin/
+
+## 📦 Estrutura do Projeto
+
+```
+Biblioteca/
+├── biblioteca_online/
+│   ├── biblioteca/          # App principal
+│   │   ├── models.py       # Modelos (Livro, Empréstimo, Reserva, etc.)
+│   │   ├── views.py        # Views
+│   │   ├── urls.py         # URLs
+│   │   ├── admin.py        # Configuração do admin
+│   │   └── migrations/     # Migrações do banco
+│   ├── biblioteca_online/  # Configurações do projeto
+│   │   ├── settings.py
+│   │   └── urls.py
+│   ├── templates/          # Templates HTML
+│   ├── static/             # Arquivos estáticos
+│   ├── db.sqlite3          # Banco de dados
+│   └── manage.py           # Script de gerenciamento
+├── requirements.txt        # Dependências
+└── README.md
+```
+
+## 👤 Autor
+
+**Guilherme Ligeski**
+
+- GitHub: [@GuiLigeskee](https://github.com/GuiLigeskee)
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
