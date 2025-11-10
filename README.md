@@ -70,12 +70,13 @@ Um sistema desenvolvido em **Django** para gerenciar empréstimos, reservas, con
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Backend**: Django 4.2+
-- **Banco de Dados**: SQLite
-- **Frontend**: Django Templates, Bootstrap
+- **Backend**: Django 5.2+
+- **Banco de Dados**: SQLite (desenvolvimento) / PostgreSQL (produção)
+- **Frontend**: Django Templates, Bootstrap 5
 - **Autenticação**: Sistema nativo do Django
+- **Deploy**: Gunicorn, WhiteNoise
 
-## 🚀 Como Iniciar o Projeto
+## 🚀 Como Iniciar o Projeto (Desenvolvimento)
 
 ### 1. Clone o repositório
 
@@ -100,25 +101,46 @@ pip install -r requirements.txt
 ### 4. Execute as migrações
 
 ```powershell
-& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" migrate
+cd biblioteca_online
+python manage.py migrate
 ```
 
 ### 5. Crie um superusuário (administrador)
 
 ```powershell
-& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" createsuperuser
+python manage.py createsuperuser
 ```
 
 ### 6. Inicie o servidor de desenvolvimento
 
 ```powershell
-& "C:/DOCUMENTOS GUI/biblioteca/Biblioteca/.venv/Scripts/python.exe" "biblioteca_online/manage.py" runserver
+python manage.py runserver
 ```
 
 ### 7. Acesse o sistema
 
 - **Site**: http://127.0.0.1:8000/
 - **Painel Administrativo**: http://127.0.0.1:8000/admin/
+
+## 🌐 Como Fazer Deploy (Produção)
+
+### Opção Rápida: Railway (Recomendado)
+
+1. **Leia o guia completo**: [DEPLOY_RAPIDO.md](DEPLOY_RAPIDO.md)
+2. **Execute a verificação**: `python check_deploy.py`
+3. **Siga os 3 passos** no guia rápido
+
+### Outras Plataformas
+
+- **Heroku**: Guia completo em [DEPLOY.md](DEPLOY.md)
+- **Render**: Deploy gratuito com limitações
+- **Docker**: Configuração incluída
+
+📚 **Documentação de Deploy**:
+
+- [DEPLOY_RAPIDO.md](DEPLOY_RAPIDO.md) - Deploy em 3 passos
+- [DEPLOY.md](DEPLOY.md) - Guia completo com todas as opções
+- [COMANDOS_UTEIS.md](COMANDOS_UTEIS.md) - Referência de comandos
 
 ## 📦 Estrutura do Projeto
 
